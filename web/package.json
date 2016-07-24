@@ -1,0 +1,44 @@
+{
+  "name": "medeye-web",
+  "version": "0.0.1",
+  "description": "MedEye radiology pre-diagnosis system web part",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --nouse-idle-notification index.js",
+    "postinstall": "bower install && grunt build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com/ixc-software/medicaleyes.git"
+  },
+  "keywords": [
+    "medeye",
+    "backend",
+    "frontend"
+  ],
+  "author": "Afanasy Argunov",
+  "license": "GPL-2.0",
+  "dependencies": {
+    "async": "^2.0.0-rc.6",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "jsonwebtoken": "^7.0.1",
+    "mongoose": "^4.5.3",
+    "morgan": "^1.7.0",
+    "nconf": "^0.8.4",
+    "nodemailer": "^2.5.0",
+    "nodemailer-smtp-transport": "^2.6.0",
+    "underscore": "^1.8.3",
+    "xoauth2": "^1.1.0",
+    "bower": "^1.7.9",
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-version": "^1.1.1"
+  }
+}

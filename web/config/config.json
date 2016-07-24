@@ -1,0 +1,25 @@
+{
+  "mongoose": {
+    "uri": "mongodb://10.0.0.2:27017/medeye",
+    "options": {
+      "server": {
+        "socketOptions": { "keepAlive": 1 }
+      }
+    }
+  },
+  "apiEndpoint":"https://medeye.cc/api/v1/",
+  "secretKey": "MySecretIsSoSecretDamnIt",
+  "inviteKey": "alphaTestInvitation2016",
+  "delCode": "YouHaveToRequestThisCodeForDelete",
+  "admin": "pv4678cy",
+  "roles": [
+    "user",
+    "admin"
+  ],
+  "mailer": {
+    "user": "medeye@gmail.com",
+    "clientId": "PASTE_CID_HERE",
+    "clientSecret": "PASTE_CS_HERE",
+    "refreshToken": "PASTE_TOKEN_HERE"
+  }
+}

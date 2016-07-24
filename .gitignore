@@ -1,0 +1,5 @@
+web/node_modules
+web/build
+web/src/bower_components
+pcvsimple/*.o
+pcvsimple/pcv
