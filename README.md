@@ -14,9 +14,10 @@
 ```
 
 ## pcvsimple prerequisites
+--------------------------
 All code is tested in Ubuntu 16.04 x64, 4.4.0-31-generic
 1. OpenCV use soureces from git repo, download [here](https://github.com/opencv/opencv)
-2. NVIDIA CUDA Toolkit 7.5, download [here](ihttps://developer.nvidia.com/cuda-downloads)
+2. NVIDIA CUDA Toolkit 7.5, download [here](https://developer.nvidia.com/cuda-downloads)
 3. Use GCC 4.8.5, G++ 4.8.5
 
 pcvsimple module written with no GPU computations, so NVIDIA Toolkit and OpenCV with GPU support needed for further works with PAIP
@@ -30,7 +31,7 @@ make
 ## Running
 
 ```shell
-./pcv <image_name>, Default: ./data.png
+./pcv <image_name>, Default: ./data.jpg
 ```
 
 ## Cleanup .o files and executable
