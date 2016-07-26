@@ -23,11 +23,11 @@ function sendActivation(email, uuid) {
   var transport =
       mailer.createTransport({service : 'Gmail', auth : {xoauth2 : generator}});
   var mailOptions = {
-    from : 'MedEye Services ✔ <medeye@gmail.com>',
+    from : 'MedEye Services ✔ <argunov.com@gmail.com>',
     to : email,
     subject : 'Activate account',
     text :
-        'To activate your account follow this link:\n https://medeye.cc/activate/' +
+        'To activate your account follow this link:\n https://13.93.164.203/activate/' +
             uuid
   };
   transport.sendMail(mailOptions, function(error, info) {
@@ -52,11 +52,11 @@ function sendRestore(email, uuid) {
   var transport =
       mailer.createTransport({service : 'Gmail', auth : {xoauth2 : generator}});
   var mailOptions = {
-    from : 'MedEye Services ✔ <medeye@gmail.com>',
+    from : 'MedEye Services ✔ <argunov.com@gmail.com>',
     to : email,
     subject : 'Password reset',
     text :
-        'To reset your password follow this link:\n https://medeye.cc/reset/' +
+        'To reset your password follow this link:\n https://13.93.164.203/reset/' +
             uuid
   };
   transport.sendMail(mailOptions, function(error, info) {
