@@ -7,8 +7,8 @@ var mongoose = require('./lib/mongoose');
 var app = express();
 var http = require('http').Server(app);
 
-app.use(bodyParser.urlencoded({ extended: true, limit: '2mb' }));
-app.use(bodyParser.json({ limit: '2mb' }));
+app.use(bodyParser.urlencoded({extended : true, limit : '2mb'}));
+app.use(bodyParser.json({limit : '2mb'}));
 app.use(morgan('tiny'));
 
 var auth = require('./app/routes/auth')(app, express);
@@ -16,7 +16,8 @@ app.use('/api/v1/auth', auth);
 
 app.use(express.static(__dirname + '/build'));
 
-app.get('*', function (req, res) { res.sendFile(__dirname + '/build/index.html'); });
+app.get('*',
+        function(req, res) { res.sendFile(__dirname + '/build/index.html'); });
 
 var cluster = require('cluster');
 var os = require('os');
@@ -28,7 +29,7 @@ if (cluster.isMaster) {
   }
 } else {
   var port = 3000;
-  http.listen(port, function (err) {
+  http.listen(port, function(err) {
     if (err) {
       console.log(err);
     } else {
