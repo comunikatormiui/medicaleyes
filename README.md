@@ -14,8 +14,9 @@
 ```
 
 ## pcvsimple prerequisites
---------------------------
+
 All code is tested in Ubuntu 16.04 x64, 4.4.0-31-generic
+
 1. OpenCV, use sources from git repo, download [here](https://github.com/opencv/opencv)
 2. NVIDIA CUDA Toolkit 7.5, download [here](https://developer.nvidia.com/cuda-downloads)
 3. Use GCC 4.8.5, G++ 4.8.5
@@ -40,11 +41,16 @@ make
 make clean
 ```
 
-### ATTENTION!
+### Code format rules
 Using clang-format with Google style option
 
+### Web part files are located in **./web** directory
+
 ## Building web part
+
 Node.js needed to install dependencies and components. Use iptables.sh for preroute http and https to 3000/3001 ports
+First, edit **./config/config.json** respectively
+
 ```shell
 npm i
 ```

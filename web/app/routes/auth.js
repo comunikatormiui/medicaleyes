@@ -7,10 +7,10 @@ var mailer = require('nodemailer');
 
 var mailerAuth = config.get('mailer');
 var secretKey = config.get('secretKey');
-var invite = config.get('inviteKey');
 var apiEndpoint = config.get('apiEndpoint');
+var domainName = config.get('domainName');
 
-function sendActivation(email, uuid) {
+function sendMail(email, uuid, subject, bodyText) {
   var generator = require('xoauth2').createXOAuth2Generator({
     user : mailerAuth.user,
     clientId : mailerAuth.clientId,
@@ -25,10 +25,8 @@ function sendActivation(email, uuid) {
   var mailOptions = {
     from : 'MedEye Services ✔ <argunov.com@gmail.com>',
     to : email,
-    subject : 'Activate account',
-    text :
-        'To activate your account follow this link:\n https://13.93.164.203/activate/' +
-            uuid
+    subject : subject,
+    text : bodyText + uuid
   };
   transport.sendMail(mailOptions, function(error, info) {
     if (error) {
@@ -36,36 +34,6 @@ function sendActivation(email, uuid) {
     }
     console.log('Message sent: ' + info.response);
   });
-  return uuid;
-}
-
-function sendRestore(email, uuid) {
-  var generator = require('xoauth2').createXOAuth2Generator({
-    user : mailerAuth.user,
-    clientId : mailerAuth.clientId,
-    clientSecret : mailerAuth.clientSecret,
-    refreshToken : mailerAuth.refreshToken
-  });
-  generator.on('token', function(token) {
-    console.log('New token for %s: %s', token.user, token.accessToken);
-  });
-  var transport =
-      mailer.createTransport({service : 'Gmail', auth : {xoauth2 : generator}});
-  var mailOptions = {
-    from : 'MedEye Services ✔ <argunov.com@gmail.com>',
-    to : email,
-    subject : 'Password reset',
-    text :
-        'To reset your password follow this link:\n https://13.93.164.203/reset/' +
-            uuid
-  };
-  transport.sendMail(mailOptions, function(error, info) {
-    if (error) {
-      return console.log(error);
-    }
-    console.log('Message sent: ' + info.response);
-  });
-  return uuid;
 }
 
 function createToken(acc) {
@@ -122,7 +90,10 @@ module.exports = function(app, express) {
                 });
                 var token = createToken(account);
                 account.save(function(err) {
-                  sendActivation(req.body.email, uuid);
+                  var subj = 'Activate account';
+                  var text = 'To activate your account follow this link:\n' +
+                             'http://' + domainName + '/activate/';
+                  sendMail(req.body.email, uuid, subj, text);
                   callback(null, {
                     success : true,
                     message : 'account_has_been_created',
@@ -198,11 +169,15 @@ module.exports = function(app, express) {
           res.json(err);
         } else {
           if (acc) {
-            acc.passwordResetCode = sendRestore(acc.email, genUuid());
+            acc.passwordResetCode = genUuid();
             acc.save(function(err) {
               if (err) {
                 res.json(err);
               } else {
+                var subj = 'Reset password';
+                var text = 'To reset your password follow this link:\n' +
+                           'http://' + domainName + '/reset/';
+                sendMail(acc.email, acc.passwordResetCode, subj, text);
                 res.json({success : true, message : 'check_email'});
               }
             });
