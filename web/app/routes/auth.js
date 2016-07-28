@@ -68,52 +68,6 @@ module.exports = function(app, express) {
     }
   });
   */
-  // Signup new account
-  auth.post('/signup', function(req, res) {
-    if (req.body.email && req.body.password) {
-      async.waterfall(
-          [
-            function(callback) {
-              Account.findOne({email : req.body.email}, callback);
-            },
-            function(acc, callback) {
-              if (acc) {
-                callback(
-                    null,
-                    {success : false, message : 'provided_email_already_used'});
-              } else {
-                var uuid = genUuid();
-                var account = new Account({
-                  email : req.body.email,
-                  password : req.body.password,
-                  activationCode : uuid
-                });
-                var token = createToken(account);
-                account.save(function(err) {
-                  var subj = 'Activate account';
-                  var text = 'To activate your account follow this link:\n' +
-                             'http://' + domainName + '/activate/';
-                  sendMail(req.body.email, uuid, subj, text);
-                  callback(null, {
-                    success : true,
-                    message : 'account_has_been_created',
-                    email : req.body.email,
-                    token : token
-                  });
-                });
-              }
-            }
-          ],
-          function(err, message) {
-            if (err) {
-              res.json(err);
-            }
-            res.json(message);
-          });
-    } else {
-      res.json({success : false, message : 'empty_credentials'});
-    }
-  });
 
   // Login with existing account
   auth.post('/login', function(req, res) {
@@ -221,6 +175,61 @@ module.exports = function(app, express) {
       }
     } else {
       res.json({success : false, message : 'password_not_valid'});
+    }
+  });
+
+  // Signup new account
+  auth.post('/signup', function(req, res) {
+    if (req.body.email && req.body.password && req.body.code) {
+      async.waterfall(
+          [
+            function(callback) {
+              Account.findOne({email : req.body.email}, callback);
+            },
+            function(acc, callback) {
+              if (acc) {
+                callback(
+                    null,
+                    {success : false, message : 'provided_email_already_used'});
+              } else {
+                Invite.findOne({email : acc.email}, callback);
+              }
+            },
+            function(cc, callback) {
+              if (cc && cc.invitationCode === req.body.code) {
+                var uuid = genUuid();
+                var account = new Account({
+                  email : req.body.email,
+                  password : req.body.password,
+                  activationCode : uuid
+                });
+                var token = createToken(account);
+                account.save(function(err) {
+                  var subj = 'Activate account';
+                  var text = 'To activate your account follow this link:\n' +
+                             'http://' + domainName + '/activate/';
+                  sendMail(req.body.email, uuid, subj, text);
+                  callback(null, {
+                    success : true,
+                    message : 'account_has_been_created',
+                    email : req.body.email,
+                    token : token
+                  });
+                });
+              } else {
+                callback(null,
+                         {success : false, message : 'you_have_no_invitation'});
+              }
+            }
+          ],
+          function(err, message) {
+            if (err) {
+              res.json(err);
+            }
+            res.json(message);
+          });
+    } else {
+      res.json({success : false, message : 'empty_credentials'});
     }
   });
 
