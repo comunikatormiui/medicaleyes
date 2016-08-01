@@ -7,84 +7,59 @@ var mailer = require('nodemailer');
 
 var mailerAuth = config.get('mailer');
 var secretKey = config.get('secretKey');
-var invite = config.get('inviteKey');
 var apiEndpoint = config.get('apiEndpoint');
+var domainName = config.get('domainName');
 
-function sendActivation(email, uuid) {
+function sendMail(email, uuid, subject, bodyText) {
   var generator = require('xoauth2').createXOAuth2Generator({
-    user: mailerAuth.user,
-    clientId: mailerAuth.clientId,
-    clientSecret: mailerAuth.clientSecret,
-    refreshToken: mailerAuth.refreshToken
+    user : mailerAuth.user,
+    clientId : mailerAuth.clientId,
+    clientSecret : mailerAuth.clientSecret,
+    refreshToken : mailerAuth.refreshToken
   });
-  generator.on('token', function (token) {
+  generator.on('token', function(token) {
     console.log('New token for %s: %s', token.user, token.accessToken);
   });
-  var transport = mailer.createTransport({ service: 'Gmail', auth: { xoauth2: generator } });
+  var transport =
+      mailer.createTransport({service : 'Gmail', auth : {xoauth2 : generator}});
   var mailOptions = {
-    from: 'MedEye Services ✔ <medeye@gmail.com>',
-    to: email,
-    subject: 'Activate account',
-    text: 'To activate your account follow this link:\n https://medeye.cc/activate/' + uuid
+    from : 'MedEye Services ✔ <argunov.com@gmail.com>',
+    to : email,
+    subject : subject,
+    text : bodyText + uuid
   };
-  transport.sendMail(mailOptions, function (error, info) {
+  transport.sendMail(mailOptions, function(error, info) {
     if (error) {
       return console.log(error);
     }
     console.log('Message sent: ' + info.response);
   });
-  return uuid;
-}
-
-function sendRestore(email, uuid) {
-  var generator = require('xoauth2').createXOAuth2Generator({
-    user: mailerAuth.user,
-    clientId: mailerAuth.clientId,
-    clientSecret: mailerAuth.clientSecret,
-    refreshToken: mailerAuth.refreshToken
-  });
-  generator.on('token', function (token) {
-    console.log('New token for %s: %s', token.user, token.accessToken);
-  });
-  var transport = mailer.createTransport({ service: 'Gmail', auth: { xoauth2: generator } });
-  var mailOptions = {
-    from: 'MedEye Services ✔ <medeye@gmail.com>',
-    to: email,
-    subject: 'Password reset',
-    text: 'To reset your password follow this link:\n https://medeye.cc/reset/' + uuid
-  };
-  transport.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      return console.log(error);
-    }
-    console.log('Message sent: ' + info.response);
-  });
-  return uuid;
 }
 
 function createToken(acc) {
-  var token =
-    jsonwebtoken.sign({ id: acc._id, email: acc.email }, secretKey, { expiresInMinute: 1440 });
+  var token = jsonwebtoken.sign({id : acc._id, email : acc.email}, secretKey,
+                                {expiresInMinute : 1440});
   return token;
 }
 
 function genUuid() {
   var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
-  return uuid.replace(/[xy]/g, function (c) {
+  return uuid.replace(/[xy]/g, function(c) {
     var r = Math.random() * 16 | 0;
     var v = c === 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
 }
 
-module.exports = function (app, express) {
+module.exports = function(app, express) {
   var auth = express.Router();
   /*
   // CORS
   auth.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization,Content-Length,
+    res.header('Access-Control-Allow-Headers', 'Content-Type,
+  Authorization,Content-Length,
   X-Requested-With, x-access-token');
     if ('OPTIONS' == req.method) {
       res.send(200);
@@ -93,113 +68,89 @@ module.exports = function (app, express) {
     }
   });
   */
-  // Signup new account
-  auth.post('/signup', function (req, res) {
-    if (req.body.email && req.body.password) {
-      async.waterfall(
-        [
-          function (callback) { Account.findOne({ email: req.body.email }, callback); },
-          function (acc, callback) {
-            if (acc) {
-              callback(null, { success: false, message: 'provided_email_already_used' });
-            } else {
-              var uuid = genUuid();
-              var account = new Account({ email: req.body.email, password: req.body.password, activationCode: uuid });
-              var token = createToken(account);
-              account.save(function (err) {
-                sendActivation(req.body.email, uuid);
-                callback(null, {
-                  success: true,
-                  message: 'account_has_been_created',
-                  email: req.body.email,
-                  token: token
-                });
-              });
-            }
-          }
-        ],
-        function (err, message) {
-          if (err) {
-            res.json(err);
-          }
-          res.json(message);
-        });
-    } else {
-      res.json({ success: false, message: 'empty_credentials' });
-    }
-  });
 
   // Login with existing account
-  auth.post('/login', function (req, res) {
+  auth.post('/login', function(req, res) {
     var email = req.body.email;
     var password = req.body.password;
     if (email && password) {
-      Account.authorize(email, password, function (err, account) {
+      Account.authorize(email, password, function(err, account) {
         if (err) {
           res.json(err);
         } else {
           var token = createToken(account);
-          res.json({ success: true, message: 'successful_login', email: account.email, token: token });
+          res.json({
+            success : true,
+            message : 'successful_login',
+            email : account.email,
+            token : token
+          });
         }
       });
     } else {
-      res.json({ success: false, message: 'empty_credentials' });
+      res.json({success : false, message : 'empty_credentials'});
     }
   });
 
   // Activate new registered
-  auth.post('/activate', function (req, res) {
+  auth.post('/activate', function(req, res) {
     var code = req.body.code;
     if (code) {
-      Account.findOne({ activationCode: code }, function (err, acc) {
+      Account.findOne({activationCode : code}, function(err, acc) {
         if (err) {
           res.json(err);
         }
         if (acc) {
           acc.activationCode = 'X';
           acc.isActivated = true;
-          acc.save(function (err) { res.json({ success: true, message: 'account_activated' }); });
+          acc.save(function(err) {
+            res.json({success : true, message : 'account_activated'});
+          });
         } else {
-          res.json({ success: false, message: 'account_not_found' });
+          res.json({success : false, message : 'account_not_found'});
         }
       });
     } else {
-      res.json({ success: false, message: 'activation_code_not_provided' });
+      res.json({success : false, message : 'activation_code_not_provided'});
     }
   });
 
-  auth.post('/restore', function (req, res) {
+  auth.post('/restore', function(req, res) {
     var email = req.body.email;
     if (email && email.length > 0) {
-      Account.findOne({ email: email }, function (err, acc) {
+      Account.findOne({email : email}, function(err, acc) {
         if (err) {
           res.json(err);
         } else {
           if (acc) {
-            acc.passwordResetCode = sendRestore(acc.email, genUuid());
-            acc.save(function (err) {
+            acc.passwordResetCode = genUuid();
+            acc.save(function(err) {
               if (err) {
                 res.json(err);
               } else {
-                res.json({ success: true, message: 'check_email' });
+                var subj = 'Reset password';
+                var text = 'To reset your password follow this link:\n' +
+                           'http://' + domainName + '/reset/';
+                sendMail(acc.email, acc.passwordResetCode, subj, text);
+                res.json({success : true, message : 'check_email'});
               }
             });
           } else {
-            res.json({ success: false, message: 'account_not_found' });
+            res.json({success : false, message : 'account_not_found'});
           }
         }
       });
     } else {
-      res.json({ success: false, message: 'email_not_valid' });
+      res.json({success : false, message : 'email_not_valid'});
     }
   });
 
-  auth.post('/reset', function (req, res) {
+  auth.post('/reset', function(req, res) {
     var password = req.body.password;
     var code = req.body.code;
     if (password && password.length > 0) {
       if (code && code.length > 0) {
-        Account.findOne({ passwordResetCode: code }, function (err, acc) {
+        Account.findOne({passwordResetCode : code}, function(err, acc) {
           if (err) {
             res.json(err);
           } else {
@@ -207,45 +158,102 @@ module.exports = function (app, express) {
               acc.passwordResetCode = 'X';
               acc.passwordResetTime = Date.now();
               acc.password = password;
-              acc.save(function (err) {
+              acc.save(function(err) {
                 if (err) {
                   res.json(err);
                 } else {
-                  res.json({ success: true, message: 'password_changed' });
+                  res.json({success : true, message : 'password_changed'});
                 }
               });
             } else {
-              res.json({ success: false, message: 'account_not_found' });
+              res.json({success : false, message : 'account_not_found'});
             }
           }
         });
       } else {
-        res.json({ success: false, message: 'reset_code_not_valid' });
+        res.json({success : false, message : 'reset_code_not_valid'});
       }
     } else {
-      res.json({ success: false, message: 'password_not_valid' });
+      res.json({success : false, message : 'password_not_valid'});
+    }
+  });
+
+  // Signup new account
+  auth.post('/signup', function(req, res) {
+    if (req.body.email && req.body.password && req.body.code) {
+      async.waterfall(
+          [
+            function(callback) {
+              Account.findOne({email : req.body.email}, callback);
+            },
+            function(acc, callback) {
+              if (acc) {
+                callback(
+                    null,
+                    {success : false, message : 'provided_email_already_used'});
+              } else {
+                Invite.findOne({email : acc.email}, callback);
+              }
+            },
+            function(cc, callback) {
+              if (cc && cc.invitationCode === req.body.code) {
+                var uuid = genUuid();
+                var account = new Account({
+                  email : req.body.email,
+                  password : req.body.password,
+                  activationCode : uuid
+                });
+                var token = createToken(account);
+                account.save(function(err) {
+                  var subj = 'Activate account';
+                  var text = 'To activate your account follow this link:\n' +
+                             'http://' + domainName + '/activate/';
+                  sendMail(req.body.email, uuid, subj, text);
+                  callback(null, {
+                    success : true,
+                    message : 'account_has_been_created',
+                    email : req.body.email,
+                    token : token
+                  });
+                });
+              } else {
+                callback(null,
+                         {success : false, message : 'you_have_no_invitation'});
+              }
+            }
+          ],
+          function(err, message) {
+            if (err) {
+              res.json(err);
+            }
+            res.json(message);
+          });
+    } else {
+      res.json({success : false, message : 'empty_credentials'});
     }
   });
 
   // Token check middleware
-  auth.use(function (req, res, next) {
+  auth.use(function(req, res, next) {
     var token = req.headers['x-access-token'];
     if (token) {
-      jsonwebtoken.verify(token, secretKey, function (err, decoded) {
+      jsonwebtoken.verify(token, secretKey, function(err, decoded) {
         if (err) {
-          res.status(403).json({ success: false, message: 'invalid_auth_data' });
+          res.status(403).json(
+              {success : false, message : 'invalid_auth_data'});
         } else {
           req.decoded = decoded;
           next();
         }
       });
     } else {
-      res.status(403).json({ success: false, message: 'token_is_not_provided' });
+      res.status(403).json(
+          {success : false, message : 'token_is_not_provided'});
     }
   });
 
   // Decode token
-  auth.get('/me', function (req, res) { res.json(req.decoded); });
+  auth.get('/me', function(req, res) { res.json(req.decoded); });
 
   return auth;
 };

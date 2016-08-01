@@ -1,13 +1,14 @@
 {
   "mongoose": {
-    "uri": "mongodb://10.0.0.2:27017/medeye",
+    "uri": "mongodb://medeye:databasepassword@ds042379.mlab.com:42379/medeye",
     "options": {
       "server": {
         "socketOptions": { "keepAlive": 1 }
       }
     }
   },
-  "apiEndpoint":"https://medeye.cc/api/v1/",
+  "domainName": "medicaleyes.net",
+  "apiEndpoint":"http://medicaleyes.net/api/v1/",
   "secretKey": "MySecretIsSoSecretDamnIt",
   "inviteKey": "alphaTestInvitation2016",
   "delCode": "YouHaveToRequestThisCodeForDelete",
@@ -17,9 +18,9 @@
     "admin"
   ],
   "mailer": {
-    "user": "medeye@gmail.com",
-    "clientId": "PASTE_CID_HERE",
-    "clientSecret": "PASTE_CS_HERE",
-    "refreshToken": "PASTE_TOKEN_HERE"
+    "user": "argunov.com@gmail.com",
+    "clientId": "1023291278526-125a4b2asq3glgul8dg3hr4l196oijlu.apps.googleusercontent.com",
+    "clientSecret": "zzK-DP5793ZJtaGgzNfmtc3_",
+    "refreshToken": "1/ZgQK1vzPa-2xqs5KO1uEoTJbPz_7cRxTXYgvQBVYSDM"
   }
 }
