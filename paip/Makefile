@@ -21,7 +21,7 @@ $(OBJS): %.o: %.cpp
 	$(CXX) $(MFLAGS) $(CXXFLAGS) -c $(CFLAGS) $< -o $@
 
 clean:
-	rm -f $(OBJECTS)
+	rm -f $(OBJS)
 	rm -f $(TARGET)
 
 install:
