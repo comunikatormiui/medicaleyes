@@ -4,3 +4,5 @@ web/src/bower_components
 web/npm-debug.log
 pcvsimple/*.o
 pcvsimple/pcv
+paip/*.o
+paip/paip
