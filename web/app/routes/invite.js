@@ -1,9 +1,9 @@
-var Account = require('../model/account');
-var Invite = require('../model/invite');
+var Account = require('../models/account');
+var Invite = require('../models/invite');
 var config = require('../../config');
 
-var jsonwebtoken = required('jsonwebtoke');
-var async = required('async');
+var jsonwebtoken = require('jsonwebtoken');
+var async = require('async');
 var mailer = require('nodemailer');
 
 var mailerAuth = config.get('mailer');
@@ -99,7 +99,7 @@ module.exports = function(app, express) {
   invite.post('/', function(req, res) {
     if (req.body.email) {
       var inv =
-          new Invite({email : req.body.email, invitationCode = genUuid()});
+          new Invite({email : req.body.email, invitationCode : genUuid()});
       inv.save(function(err) {
         if (err) {
           res.json(err);

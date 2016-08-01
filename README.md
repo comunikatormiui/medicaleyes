@@ -1,4 +1,4 @@
-# MedEye - radiology pre-diagnosis system powered by Perseus Artificial Intelligence Platform (PAIP)
+# [MedicalEyes](https://medicaleyes.net) - radiology pre-diagnosis system powered by Perseus Artificial Intelligence Platform (PAIP)
 
 ## Tasks and organization
 
@@ -11,6 +11,7 @@
 .
 +-- web - web api and frontend files
 |   +-- app - api routes & data models
+|   +-- cert - ssl certififcate & server key
 |   +-- config - config files
 |   +-- lib - libs
 |   +-- src - frontend sources
@@ -29,16 +30,23 @@ All code is tested in Ubuntu 16.04 x64, 4.4.0-31-generic
 
 pcvsimple module written with no GPU computations, so NVIDIA Toolkit and OpenCV with GPU support needed for further works with PAIP
 
-## Building pcvsimple with GPU support
+## Building PAIP 
 
 ```shell
+cd ./paip
 make
 ```
 
-## Running
+## Install
 
 ```shell
-./pcv <image_name>, Default: ./data.jpg
+sudo make install
+```
+
+## Uninstall
+
+```shell
+sudo make uninstall
 ```
 
 ## Cleanup .o files and executable
@@ -59,6 +67,7 @@ Node.js needed to install dependencies and components. Use iptables.sh for prero
 First, edit `./config/config.json` respectively
 
 ```shell
+cd ./web
 npm i
 ```
 

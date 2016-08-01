@@ -21,6 +21,12 @@ app.use(morgan('tiny'));
 var auth = require('./app/routes/auth')(app, express);
 app.use('/api/v1/auth', auth);
 
+var invite = require('./app/routes/invite')(app, express);
+app.use('/api/v1/invite', invite);
+
+var scan = require('./app/routes/scan')(app, express);
+app.use('/api/v1/scan', scan);
+
 app.use(express.static(__dirname + '/build'));
 
 app.get('*',
