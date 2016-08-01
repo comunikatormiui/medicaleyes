@@ -7,8 +7,8 @@
       }
     }
   },
-  "domainName": "medeye.cc",
-  "apiEndpoint":"http://medeye.cc/api/v1/",
+  "domainName": "medicaleyes.net",
+  "apiEndpoint":"http://medicaleyes.net/api/v1/",
   "secretKey": "MySecretIsSoSecretDamnIt",
   "inviteKey": "alphaTestInvitation2016",
   "delCode": "YouHaveToRequestThisCodeForDelete",
