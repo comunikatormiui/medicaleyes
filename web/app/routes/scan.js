@@ -1,5 +1,5 @@
-var Account = require('../model/account');
-var Scan = require('../model/scan');
+var Account = require('../models/account');
+var Scan = require('../models/scan');
 var config = require('../../config');
 
 var jsonwebtoken = require('jsonwebtoken');

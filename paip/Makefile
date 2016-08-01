@@ -1,22 +1,31 @@
-SYSCONF_LINK = g++
-CPPFLAGS     =
-CFLAGS       = `pkg-config --cflags opencv`
-LDFLAGS      =
-LIBS         = `pkg-config --libs opencv`
+MFLAGS=-Wall
+CXXFLAGS=
+CFLAGS=`pkg-config --cflags opencv`
+LDFLAGS=
+LIBS= `pkg-config --libs opencv`
 
-DESTDIR = ./
-TARGET  = paip 
+DESTDIR=./
+PREFIX=/usr/local/bin
+TARGET=paip 
 
-OBJECTS := $(patsubst %.cpp,%.o,$(wildcard *.cpp))
+OBJS=$(patsubst %.cpp,%.o,$(wildcard *.cpp))
+
+.PHONY: all clean install uninstall
 
 all: $(DESTDIR)$(TARGET)
 
-$(DESTDIR)$(TARGET): $(OBJECTS)
-	$(SYSCONF_LINK) -Wall $(LDFLAGS) -o $(DESTDIR)$(TARGET) $(OBJECTS) $(LIBS)
+$(DESTDIR)$(TARGET): $(OBJS)
+	$(CXX) $(MFLAGS) $(LDFLAGS) -o $(DESTDIR)$(TARGET) $(OBJS) $(LIBS)
 
-$(OBJECTS): %.o: %.cpp
-	$(SYSCONF_LINK) -Wall $(CPPFLAGS) -c $(CFLAGS) $< -o $@
+$(OBJS): %.o: %.cpp
+	$(CXX) $(MFLAGS) $(CXXFLAGS) -c $(CFLAGS) $< -o $@
 
 clean:
-	-rm -f $(OBJECTS)
-	-rm -f $(TARGET)
+	rm -f $(OBJECTS)
+	rm -f $(TARGET)
+
+install:
+	install $(TARGET) $(PREFIX)
+
+uninstall:
+	rm -f $(PREFIX)/$(TARGET)
