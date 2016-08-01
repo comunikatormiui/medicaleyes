@@ -1,5 +1,6 @@
 web/node_modules
 web/build
 web/src/bower_components
+web/npm-debug.log
 pcvsimple/*.o
 pcvsimple/pcv
