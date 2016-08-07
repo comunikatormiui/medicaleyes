@@ -1,1 +1,60 @@
-Hello
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <base href="/">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Medical Eyes</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="css/angular-material.min.css">
+    <meta property="og:url" content="$root.absUrl" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="MedicalEyes" />
+    <meta property="og:description" content="Radiology CV and AI" />
+    <meta property="og:image" content="https://localhost:3001/assets/img/icons/icon.png" />
+</head>
+
+<body ng-app="medeye" ng-cloak ng-controller="AppCtrl" layout="column">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>
+                <a ng-href="/">Medical Eyes | pre-Alpha</a>
+            </h2>
+            <span flex></span>
+            <div ng-if="!$root.logged" layout="row" layout-align="center center">
+                <md-button class="md-icon-button md-warn md-raised md-hue-2" ng-click="showLogin()" aria-label="Enter">
+                    <ng-md-icon icon="login" style="fill: white;"></ng-md-icon>
+                </md-button>
+            </div>
+            <div ng-if="$root.logged" layout="row" layout-align="center center">
+                <md-button class="md-icon-button md-primary" ng-click="doLogout()" aria-label="Exit">
+                    <ng-md-icon icon="logout" style="fill: white;"></ng-md-icon>
+                </md-button>
+            </div>
+        </div>
+    </md-toolbar>
+    <md-content>
+        <div ng-if="$root.processing">
+            <md-progress-linear class="md-warn" md-mode="indeterminate"></md-progress-linear>
+        </div>
+        <div layout-padding ng-view></div>
+    </md-content>
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-aria.min.js"></script>
+    <script src="js/angular-animate.min.js"></script>
+    <script src="js/angular-sanitize.min.js"></script>
+    <script src="js/angular-material.min.js"></script>
+    <script src="js/angular-route.min.js"></script>
+    <script src="js/angular-messages.min.js"></script>
+    <script src="js/angular-translate.min.js"></script>
+    <script src="js/angular-material-icons.min.js"></script>
+    <script src="js/flow.min.js"></script>
+    <script src="js/ng-flow.min.js"></script>
+    <script src="js/svg-morpheus.js"></script>
+    <script src="js/underscore-min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

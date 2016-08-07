@@ -9,8 +9,8 @@
       }
     }
   },
-  "domainName": "localhost:3001",
-  "apiEndpoint": "https://localhost:3001/api/v1/",
+  "domainName": "13.93.164.203",
+  "apiEndpoint": "https://13.93.164.203/api/v1/",
   "secretKey": "MySecretIsSoSecretDamnIt",
   "inviteKey": "alphaTestInvitation2016",
   "delCode": "YouHaveToRequestThisCodeForDelete",

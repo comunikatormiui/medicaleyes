@@ -1,7 +1,7 @@
 {
-  "name": "medeye-web",
+  "name": "medicaleyes-web",
   "version": "0.0.1",
-  "description": "MedEye radiology pre-diagnosis system web part",
+  "description": "Medical Eyes radiology pre-diagnosis system web part",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,7 +13,7 @@
     "url": "git@github.com/ixc-software/medicaleyes.git"
   },
   "keywords": [
-    "medeye",
+    "medicaleyes",
     "backend",
     "frontend"
   ],
