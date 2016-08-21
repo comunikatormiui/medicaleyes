@@ -2,7 +2,7 @@
 angular.module('medeye', ['ngRoute', 'ngMaterial', 'ngMdIcons', 'ngMessages', 'ngAria', 'ngAnimate', 'ngSanitize',
     'flow', 'pascalprecht.translate', 'medeye.services', 'medeye.controllers'])
     .constant('$apiEndpoint', {
-        url: 'https://medicaleyes.net/api/v1/'
+        url: 'https://localhost:3001/api/v1/'
     })
     .config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default')
@@ -22,6 +22,10 @@ angular.module('medeye', ['ngRoute', 'ngMaterial', 'ngMdIcons', 'ngMessages', 'n
             .when('/', {
                 templateUrl: 'views/body.html',
                 controller: 'AppCtrl'
+            })
+            .when('/cabinet', {
+                templateUrl: 'views/cabinet.html',
+                controller: 'CabCtrl'
             })
             .when('/login', {
                 templateUrl: 'views/login.html',

@@ -13,7 +13,8 @@
     "angular-translate": "^2.10.0",
     "angular-sanitize": "^1.5.4",
     "ng-flow": "^2.7.1",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "dicomParser": "^1.7.4"
   },
   "resolutions": {
     "angular": "^1.5.8"

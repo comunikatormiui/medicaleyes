@@ -1,0 +1,35 @@
+<div layout="column" layout-align="center start">
+    <div flow-init flow-file-success="$file.msg = $message" flow-files-submitted="filesAdded($event, $flow)">
+        <div layout="row">
+            <md-button class="md-warn md-raised md-hue-2" ng-click="clear($flow)">
+                <label>Clear</label>
+            </md-button>
+            <md-button class="md-primary md-raised">
+                <label for="file-input">Select directory</label>
+            </md-button>
+            <md-button class="md-primary md-raised" ng-disabled="patListEmpty">
+                <label>Show in table</label>
+            </md-button>
+            <md-button class="md-warn md-raised md-hue-2" ng-disabled="patListEmpty" ng-click="anonymize()">
+                <label>Anonymize</label>
+            </md-button>
+            <md-button class="md-primary md-raised" ng-disabled="notAnonymized">
+                <label>Upload to server</label>
+            </md-button>
+        </div>
+        <input class="file-input" flow-btn flow-directory id="file-input">
+        <md-list flex>
+            <md-subheader class="md-no-sticky">Your files</md-subheader>
+            <md-list-item class="md-3-line" ng-repeat="pat in patsList">
+                <md-divider></md-divider>
+                <div class="md-list-item-text" layout="column">
+                    <h4>Filename: {{ pat.fileName }}</h4>
+                    <h4>Patient name: {{ pat.patientName }}</h4>
+                    <h4>Center: {{ pat.centerName }}, address: {{ pat.centerAddress }}</h4>
+                    <p>Date: {{ pat.scanDate | date: 'dd.MM.yyyy'}}</p>
+                </div>
+                <md-button class="md-secondary" ng-click="">More...</md-button>
+            </md-list-item>
+        </md-list>
+    </div>
+</div>

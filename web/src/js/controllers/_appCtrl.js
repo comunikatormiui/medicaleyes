@@ -1,7 +1,7 @@
 'use strict';
 angular.module('medeye.controllers', ['medeye.services'])
-    .controller('AppCtrl', ['$scope', '$rootScope', '$location', '$mdToast', 'Auth',
-        function ($scope, $rootScope, $location, $mdToast, Auth) {
+    .controller('AppCtrl', ['$scope', '$rootScope', '$location', '$mdToast', '$mdSidenav', 'Auth',
+        function ($scope, $rootScope, $location, $mdToast, $mdSidenav, Auth) {
             $rootScope.processing = false;
 
             $rootScope.$on('$routeChangeStart', function () {
@@ -20,6 +20,13 @@ angular.module('medeye.controllers', ['medeye.services'])
             $scope.showSignup = function () {
                 $location.path('signup');
             };
+
+            $scope.toggleMenu = buildToggler('left');
+            function buildToggler(componentId) {
+                return function () {
+                    $mdSidenav(componentId).toggle();
+                };
+            }
 
             var last = {
                 bottom: false,

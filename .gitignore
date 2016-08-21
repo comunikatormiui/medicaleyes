@@ -4,3 +4,4 @@ web/src/bower_components
 web/npm-debug.log
 paip/*.o
 paip/paip
+paip/.vscode
