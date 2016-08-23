@@ -17,7 +17,8 @@
   "admin": "pv4678cy",
   "roles": [
     "user",
-    "admin"
+    "admin",
+    "partner"
   ],
   "mailer": {
     "user": "argunov.com@gmail.com",
