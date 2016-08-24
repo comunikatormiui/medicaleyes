@@ -258,8 +258,7 @@ module.exports = function (app, express) {
         }
       });
     } else {
-      res.status(403).json(
-        { success: false, message: 'token_is_not_provided' });
+      res.status(403).json({ success: false, message: 'token_is_not_provided' });
     }
   });
 
