@@ -1,0 +1,47 @@
+<div ng-show="showSent" md-padding layout="column" layout-align="center center">
+    <h3>Check your email for password reset link</h3>
+</div>
+<div ng-show="showStart" layout="row" layout-align="center">
+    <md-card flex flex-gt-sm="70">
+        <md-card-title>
+            <md-card-title-text>
+                <h3>Type email</h3>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content layout="column">
+            <form ng-submit="restore()" layout="column" name="resetForm">
+                <md-input-container class="md-block">
+                    <label>Email</label>
+                    <input ng-model="data.email" type="email" required name="email" ng-pattern="/^[a-zA-Z0-9\.]+@[a-zA-Z0-9\.]+\.[a-z]+$/">
+                    <div ng-messages="resetForm.email.$error" role="alert">
+                        <div ng-message="required">Email cannot be empty</div>
+                        <div ng-message="pattern">Email must look like correct e-mail address</div>
+                    </div>
+                </md-input-container>
+                <md-button type="submit" class="md-button md-primary md-raised md-hue-2">Send</md-button>
+            </form>
+        </md-card-content>
+    </md-card>
+</div>
+<div ng-show="showReset" layout="row" layout-align="center">
+    <md-card flex flex-gt-sm="70">
+        <md-card-title>
+            <md-card-title-text>
+                <h3>Enter new password</h3>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content layout="column">
+            <form ng-submit="reset()" layout="column" name="resetForm">
+                <md-input-container class="md-block">
+                    <label>Password</label>
+                    <input ng-model="data.password" type="password" required name="password" minlength="8">
+                    <div ng-messages="resetForm.password.$error" role="alert">
+                        <div ng-message="required">Password cannot be empty</div>
+                        <div ng-message="minlength">Password must be at least 8 characters length</div>
+                    </div>
+                </md-input-container>
+                <md-button type="submit" class="md-button md-primary md-raised md-hue-2">Change</md-button>
+            </form>
+        </md-card-content>
+    </md-card>
+</div>

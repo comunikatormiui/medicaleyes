@@ -3,24 +3,28 @@
     "uri": "mongodb://medeye:databasepassword@ds042379.mlab.com:42379/medeye",
     "options": {
       "server": {
-        "socketOptions": { "keepAlive": 1 }
+        "socketOptions": {
+          "keepAlive": 1
+        }
       }
     }
   },
-  "domainName": "localhost",
-  "apiEndpoint":"http://localhost/api/v1/",
+  "domainName": "localhost:3001",
+  "apiEndpoint": "https://localhost:3001/api/v1/",
   "secretKey": "MySecretIsSoSecretDamnIt",
   "inviteKey": "alphaTestInvitation2016",
   "delCode": "YouHaveToRequestThisCodeForDelete",
   "admin": "pv4678cy",
   "roles": [
     "user",
-    "admin"
+    "admin",
+    "partner"
   ],
   "mailer": {
     "user": "argunov.com@gmail.com",
     "clientId": "1023291278526-125a4b2asq3glgul8dg3hr4l196oijlu.apps.googleusercontent.com",
     "clientSecret": "zzK-DP5793ZJtaGgzNfmtc3_",
-    "refreshToken": "1/ZgQK1vzPa-2xqs5KO1uEoTJbPz_7cRxTXYgvQBVYSDM"
+    "refreshToken": "1/nqOpm-YqXoeyw99_Y8SaO33X7bYiOclEQ0zb8zN8fmI",
+    "accessToken": "ya29.Ci84A9Tmpq7P5yXCLacWCst54rchFZwZY8CC_wE7CuzzXr72zNztw2GfdUrI3jKKIw"
   }
 }

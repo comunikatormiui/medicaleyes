@@ -1,0 +1,47 @@
+<div layout="row" layout-align="center">
+    <md-card flex flex-gt-sm="70">
+        <md-card-title>
+            <md-card-title-text>
+                <h3>Registration</h3>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content layout="column">
+            <form ng-submit="doSignup()" layout="column" name="signupForm">
+                <md-input-container class="md-block">
+                    <label>Email</label>
+                    <input ng-model="signupData.email" type="email" required name="email" ng-pattern="/^[a-zA-Z0-9\.]+@[a-zA-Z0-9\.]+\.[a-z]+$/">
+                    <div ng-messages="signupForm.email.$error" role="alert">
+                        <div ng-message="required">Email cannot be empty</div>
+                        <div ng-message="pattern">Email must look like an 'e-mail'</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>Password</label>
+                    <input ng-model="signupData.password" type="password" required name="password" minlength="8">
+                    <div ng-messages="signupForm.password.$error" role="alert">
+                        <div ng-message="required">Password cannot be empty</div>
+                        <div ng-message="minlength">Password must be minimum 8 characters length</div>
+                    </div>
+                </md-input-container>
+                <md-button type="submit" class="md-button md-primary md-raised md-hue-2">Register</md-button>
+            </form>
+        </md-card-content>
+    </md-card>
+</div>
+<div layout="row" layout-align="center center">
+    <p class="md-caption">By registering agree to&nbsp</p><a class="md-body-2" ng-href="terms">terms of use</a>
+</div>
+<div layout="row" layout-align="center">
+    <md-card flex flex-gt-sm="70">
+        <md-card-title>
+            <md-card-title-text>
+                <h3>Already registered?</h3>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content layout="column">
+            <div layout="column">
+                <md-button class="md-button md-warn md-raised md-hue-2" ng-href="login">Login</md-button>
+            </div>
+        </md-card-content>
+    </md-card>
+</div>

@@ -1,1 +1,119 @@
-Hello
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <base href="/">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Medical Eyes - AI powered medical CV system</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="css/angular-material.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <meta property="og:url" content="$root.absUrl" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="MedicalEyes" />
+    <meta property="og:description" content="Radiology CV and AI" />
+    <meta property="og:image" content="https://localhost:3001/assets/img/icons/icon.png" />
+</head>
+
+<body ng-app="medeye" ng-cloak ng-controller="AppCtrl" layout="column" flow-prevent-drop>
+    <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open md-whiteframe="4">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h1>Medical Eyes</h1>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="toggleMenu()" aria-label="Back">
+                    <ng-md-icon icon="keyboard_arrow_left" style="fill: white"></ng-md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-content>
+            <md-list>
+                <md-subheader ng-if="$root.logged" class="md-no-sticky">Services</md-subheader>
+                <md-list-item ng-if="$root.logged" class="md-1-line" ng-href="cabinet" ng-click="toggleMenu()">
+                    <ng-md-icon icon="apps" style="fill: grey; padding-left: 8px; padding-top: 8px"></ng-md-icon>
+                    <p class="md-body-1" style="padding-left: 24px">Cabinet</p>
+                </md-list-item>
+                <md-list-item ng-if="$root.logged" class="md-1-line" ng-href="account" ng-click="toggleMenu()">
+                    <ng-md-icon icon="person" style="fill: grey; padding-left: 8px; padding-top: 8px"></ng-md-icon>
+                    <p class="md-body-1" style="padding-left: 24px">Account</p>
+                </md-list-item>
+                <md-subheader class="md-no-sticky">Information</md-subheader>
+                <md-list-item class="md-1-line" ng-href="terms" ng-click="toggleMenu()">
+                    <ng-md-icon icon="event_available" style="fill: grey; padding-left: 8px; padding-top: 8px"></ng-md-icon>
+                    <p class="md-body-1" style="padding-left: 24px">Terms of use</p>
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </md-sidenav>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <div ng-if="$root.logged" layout="row" layout-align="center center">
+                <md-button class="md-icon-button md-secondary" aria-label="Menu" ng-click="toggleMenu()">
+                    <md-tooltip md-direction="bottom">
+                        Menu
+                    </md-tooltip>
+                    <ng-md-icon icon="menu" style="fill: white;"></ng-md-icon>
+                </md-button>
+            </div>
+            <h2>
+                <a ng-href="/">Medical Eyes</a>
+            </h2>
+            <span flex></span>
+            <div ng-if="!$root.logged" layout="row" layout-align="center center">
+                <md-button class="md-icon-button md-warn md-raised md-hue-2" ng-click="showLogin()" aria-label="Enter">
+                    <md-tooltip md-direction="bottom">
+                        Login
+                    </md-tooltip>
+                    <ng-md-icon icon="login" style="fill: white;"></ng-md-icon>
+                </md-button>
+            </div>
+            <div ng-if="$root.logged" layout="row" layout-align="center center">
+                <md-button class="md-icon-button md-primary" ng-href="cabinet" aria-label="cabinet">
+                    <md-tooltip md-direction="bottom">
+                        Cabinet
+                    </md-tooltip>
+                    <ng-md-icon icon="apps" style="fill: white;"></ng-md-icon>
+                </md-button>
+                <span flex></span>
+                <md-button class="md-icon-button md-primary" ng-href="account" aria-label="account">
+                    <md-tooltip md-direction="bottom">
+                        Account
+                    </md-tooltip>
+                    <ng-md-icon icon="person" style="fill: white;"></ng-md-icon>
+                </md-button>
+                <span flex></span>
+                <md-button class="md-icon-button md-primary" ng-click="doLogout()" aria-label="Exit">
+                    <md-tooltip md-direction="bottom">
+                        Logout
+                    </md-tooltip>
+                    <ng-md-icon icon="logout" style="fill: white;"></ng-md-icon>
+                </md-button>
+            </div>
+        </div>
+    </md-toolbar>
+    <md-content>
+        <div ng-if="$root.processing">
+            <md-progress-linear class="md-warn" md-mode="indeterminate"></md-progress-linear>
+        </div>
+        <div layout-padding ng-view></div>
+    </md-content>
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-aria.min.js"></script>
+    <script src="js/angular-animate.min.js"></script>
+    <script src="js/angular-sanitize.min.js"></script>
+    <script src="js/angular-material.min.js"></script>
+    <script src="js/angular-route.min.js"></script>
+    <script src="js/angular-messages.min.js"></script>
+    <script src="js/angular-translate.min.js"></script>
+    <script src="js/angular-material-icons.min.js"></script>
+    <script src="js/flow.min.js"></script>
+    <script src="js/ng-flow.min.js"></script>
+    <script src="js/dicomParser.min.js"></script>
+    <script src="js/svg-morpheus.js"></script>
+    <script src="js/underscore-min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

@@ -7,7 +7,7 @@ var async = require('async');
 
 var secretKey = config.get('secretKey');
 
-module.exports = function(app, express) {
+module.exports = function (app, express) {
   var scan = express.Router();
   /*
   // CORS
@@ -25,13 +25,13 @@ module.exports = function(app, express) {
   });
   */
 
-  scan.use(function(req, res, next) {
+  scan.use(function (req, res, next) {
     var token = req.headers['x-access-token'];
     if (token) {
-      jsonwebtoken.verify(token, secretKey, function(err, decoded) {
+      jsonwebtoken.verify(token, secretKey, function (err, decoded) {
         if (err) {
           res.status(403).json(
-              {success : false, message : 'invalid_auth_data'});
+            { success: false, message: 'invalid_auth_data' });
         } else {
           req.decoded = decoded;
           next();
@@ -39,28 +39,28 @@ module.exports = function(app, express) {
       });
     } else {
       res.status(403).json(
-          {success : false, message : 'token_is_not_provided'});
+        { success: false, message: 'token_is_not_provided' });
     }
   });
 
-  scan.post('/', function(req, res) {
-    res.json({success : true, message : 'not_implemented'});
+  scan.post('/', function (req, res) {
+    res.json({ success: true, message: 'not_implemented' });
   });
 
-  scan.get('/', function(req, res) {
-    res.json({success : true, message : 'not_implemented'});
+  scan.get('/', function (req, res) {
+    res.json({ success: true, message: 'not_implemented' });
   });
 
-  scan.get('/list', function(req, res) {
-    res.json({success : true, message : 'not_implemented'});
+  scan.get('/list', function (req, res) {
+    res.json({ success: true, message: 'not_implemented' });
   });
 
-  scan.put('/', function(req, res) {
-    res.json({success : true, message : 'not_implemented'});
+  scan.put('/', function (req, res) {
+    res.json({ success: true, message: 'not_implemented' });
   });
 
-  scan.delete('/', function(req, res) {
-    res.json({success : true, message : 'not_implemented'});
+  scan.delete('/', function (req, res) {
+    res.json({ success: true, message: 'not_implemented' });
   });
 
   return scan;
