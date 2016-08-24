@@ -84,6 +84,7 @@ module.exports = function (app, express) {
             success: true,
             message: 'successful_login',
             email: account.email,
+            role: account.role,
             token: token
           });
         }

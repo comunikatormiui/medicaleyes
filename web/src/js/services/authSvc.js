@@ -23,6 +23,7 @@ angular.module('medeye.services')
         authFactory.logout = function () {
             $window.localStorage.removeItem('email');
             $window.localStorage.removeItem('token');
+            $window.localStorage.removeItem('role');
             $window.localStorage.removeItem('id');
         };
         authFactory.logged = function () {
