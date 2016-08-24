@@ -1,4 +1,5 @@
 var Account = require('../models/account');
+var Invite = require('../models/invite');
 var config = require('../../config');
 
 var jsonwebtoken = require('jsonwebtoken');
@@ -180,11 +181,28 @@ module.exports = function (app, express) {
 
   // Signup new account
   auth.post('/signup', function (req, res) {
-    if (req.body.email && req.body.password) {
+    if (req.body.email && req.body.password && req.body.code) {
       async.waterfall(
         [
           function (callback) {
-            Account.findOne({ email: req.body.email }, callback);
+            Invite.findOne({ code: req.body.code }, function (err, inv) {
+              if (err) {
+                callback(err);
+              } else {
+                if (inv) {
+                  inv.code = 'X';
+                  inv.save(function (err) {
+                    if (err) {
+                      callback(err);
+                    } else {
+                      Account.findOne({ email: req.body.email }, callback);
+                    }
+                  });
+                } else {
+                  callback(null, { success: false, message: 'you_have_no_invitation' });
+                }
+              }
+            });
           },
           function (acc, callback) {
             if (acc) {
