@@ -185,48 +185,49 @@ module.exports = function (app, express) {
       async.waterfall(
         [
           function (callback) {
-            Invite.findOne({ code: req.body.code }, function (err, inv) {
-              if (err) {
-                callback(err);
-              } else {
-                if (inv) {
-                  inv.code = 'X';
-                  inv.save(function (err) {
-                    if (err) {
-                      callback(err);
-                    } else {
-                      Account.findOne({ email: req.body.email }, callback);
-                    }
-                  });
-                } else {
-                  callback(null, { success: false, message: 'you_have_no_invitation' });
-                }
-              }
-            });
+            Account.findOne({ email: req.body.email }, callback);
           },
           function (acc, callback) {
             if (acc) {
               callback(null, { success: false, message: 'provided_email_already_used' });
             } else {
-              var uuid = genUuid();
-              var account = new Account({
-                email: req.body.email,
-                password: req.body.password,
-                activationCode: uuid
+              Invite.findOne({ code: req.body.code }, callback);
+            }
+          },
+          function (inv, callback) {
+            if (inv) {
+              inv.code = 'X';
+              inv.save(function (err) {
+                if (err) {
+                  callback(err);
+                } else {
+                  var uuid = genUuid();
+                  var account = new Account({
+                    email: req.body.email,
+                    password: req.body.password,
+                    activationCode: uuid
+                  });
+                  var token = createToken(account);
+                  account.save(function (err) {
+                    if (err) {
+                      callback(err);
+                    } else {
+                      var subj = 'Activate account';
+                      var text = 'To activate your account follow this link:\n' +
+                        'https://' + domainName + '/activate/';
+                      sendMail(req.body.email, uuid, subj, text);
+                      callback(null, {
+                        success: true,
+                        message: 'account_has_been_created',
+                        email: req.body.email,
+                        token: token
+                      });
+                    }
+                  });
+                }
               });
-              var token = createToken(account);
-              account.save(function (err) {
-                var subj = 'Activate account';
-                var text = 'To activate your account follow this link:\n' +
-                  'https://' + domainName + '/activate/';
-                sendMail(req.body.email, uuid, subj, text);
-                callback(null, {
-                  success: true,
-                  message: 'account_has_been_created',
-                  email: req.body.email,
-                  token: token
-                });
-              });
+            } else {
+              callback(null, { success: false, message: 'you_have_no_invitation' });
             }
           }
         ],

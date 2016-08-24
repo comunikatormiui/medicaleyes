@@ -48,6 +48,7 @@ angular.module('medeye.controllers')
 
             $scope.doSignup = function () {
                 $rootScope.processing = true;
+                $scope.signupData.code = $rootScope.inviteCode;
                 Auth.signup($scope.signupData)
                     .success(function (res) {
                         processData(res);

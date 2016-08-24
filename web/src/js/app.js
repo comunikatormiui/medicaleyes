@@ -43,6 +43,10 @@ angular.module('medeye', ['ngRoute', 'ngMaterial', 'ngMdIcons', 'ngMessages', 'n
                 template: ' ',
                 controller: 'SvcCtrl'
             })
+            .when('/invite/:invite', {
+                template: ' ',
+                controller: 'SvcCtrl'
+            })
             .when('/404', {
                 templateUrl: 'views/404.html'
             })
