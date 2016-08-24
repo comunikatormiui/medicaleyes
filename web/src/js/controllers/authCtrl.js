@@ -11,6 +11,7 @@ angular.module('medeye.controllers')
                 if (data.success === true) {
                     $window.localStorage.setItem('token', data.token);
                     $window.localStorage.setItem('email', data.email);
+                    $window.localStorage.setItem('role', data.role);
                     $scope.getMe();
                     var returnPath = $rootScope.returnPath;
                     if (returnPath) {

@@ -39,7 +39,7 @@ function sendMail(email, uuid, subject, bodyText) {
 }
 
 function createToken(acc) {
-  var token = jsonwebtoken.sign({ id: acc._id, email: acc.email }, secretKey, { expiresIn: '24h' });
+  var token = jsonwebtoken.sign({ id: acc._id, email: acc.email, role: acc.role }, secretKey, { expiresIn: '24h' });
   return token;
 }
 
@@ -205,6 +205,7 @@ module.exports = function (app, express) {
                   var account = new Account({
                     email: req.body.email,
                     password: req.body.password,
+                    role: (inv.role),
                     activationCode: uuid
                   });
                   var token = createToken(account);
