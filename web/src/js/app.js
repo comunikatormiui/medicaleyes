@@ -13,6 +13,14 @@ angular.module('medeye', ['ngRoute', 'ngMaterial', 'ngMdIcons', 'ngMessages', 'n
                 'hue-3': 'A100'
             })
             .accentPalette('orange');
+        $mdThemingProvider.theme('second')
+            .primaryPalette('blue-grey', {
+                'default': 'A400',
+                'hue-1': 'A100',
+                'hue-2': 'A200',
+                'hue-3': 'A100'
+            })
+            .accentPalette('orange');
     })
     .config(function ($httpProvider) {
         $httpProvider.interceptors.push('HttpRequestInterceptor');
@@ -26,6 +34,10 @@ angular.module('medeye', ['ngRoute', 'ngMaterial', 'ngMdIcons', 'ngMessages', 'n
             .when('/cabinet', {
                 templateUrl: 'views/cabinet.html',
                 controller: 'CabCtrl'
+            })
+            .when('/account', {
+                templateUrl: 'views/account.html',
+                controller: 'AccCtrl'
             })
             .when('/login', {
                 templateUrl: 'views/login.html',
