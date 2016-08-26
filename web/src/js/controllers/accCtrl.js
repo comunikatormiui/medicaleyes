@@ -1,27 +1,27 @@
 'use strict';
 angular.module('medeye.controllers')
-    .controller('AccCtrl', ['$scope', '$rootScope', '$location', '$window', '$mdSidenav', 'Auth',
-        function ($scope, $rootScope, $location, $window, $mdSidenav, Auth) {
-            $scope.isAdmin = false;
-            $scope.isPartner = false;
-            $scope.isUser = false;
+    .controller('AccCtrl', ['$scope', '$rootScope', '$location', '$window', '$mdSidenav', 'Auth', 'Invite',
+        function ($scope, $rootScope, $location, $window, $mdSidenav, Auth, Invite) {
+            $rootScope.isAdmin = false;
+            $rootScope.isPartner = false;
+            $rootScope.isUser = false;
 
             $rootScope.processing = false;
 
             $rootScope.$on('$routeChangeStart', function () {
                 if ($rootScope.logged) {
-                    setRole();
                     $scope.getMe();
+                    setRole();
                 }
             });
 
             function setRole() {
                 if ($window.localStorage.getItem('role') === 'admin') {
-                    $scope.isAdmin = true;
+                    $rootScope.isAdmin = true;
                 } else if ($window.localStorage.getItem('role') === 'partner') {
-                    $scope.isPartner = true;
+                    $rootScope.isPartner = true;
                 } else {
-                    $scope.isUser = true;
+                    $rootScope.isUser = true;
                 }
             }
 
@@ -33,6 +33,54 @@ angular.module('medeye.controllers')
                     $rootScope.$broadcast('alert', data.message);
                 }
             }
+
+            $scope.sendInvite = function () {
+                $rootScope.processing = true;
+                Invite.create($scope.inviteData)
+                    .success(function (res) {
+                        $rootScope.processing = false;
+                        processData(res);
+                    })
+                    .error(function () {
+                        return;
+                    });
+            };
+
+            $scope.getInvite = function (id) {
+                $rootScope.processing = true;
+                Invite.get(id)
+                    .success(function (res) {
+                        $rootScope.processing = false;
+                        processData(res);
+                    })
+                    .error(function () {
+                        return;
+                    });
+            };
+
+            $scope.myInvites = function () {
+                $rootScope.processing = true;
+                Invite.list()
+                    .success(function (res) {
+                        $rootScope.processing = false;
+                        processData(res);
+                    })
+                    .error(function () {
+                        return;
+                    });
+            };
+
+            $scope.removeInvite = function (id) {
+                $rootScope.processing = true;
+                Invite.remove(id)
+                    .success(function (res) {
+                        $rootScope.processing = false;
+                        processData(res);
+                    })
+                    .error(function () {
+                        return;
+                    });
+            };
 
             $scope.getMe = function () {
                 $rootScope.processing = true;

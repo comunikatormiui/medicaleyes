@@ -24,6 +24,9 @@ app.use('/api/v1/auth', auth);
 var scan = require('./app/routes/scan')(app, express);
 app.use('/api/v1/scan', scan);
 
+var invite = require('./app/routes/invite')(app, express);
+app.use('/api/v1/invite', invite);
+
 app.use(express.static(__dirname + '/build'));
 
 app.get('*', function (req, res) { res.sendFile(__dirname + '/build/index.html'); });

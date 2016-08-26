@@ -98,10 +98,10 @@ module.exports = function (app, express) {
     if (req.body.email && req.body.role) {
       var uuid = genUuid();
       var inv = new Invite({
-        account = req.decoded.id,
-        email = req.body.email,
-        role = req.body.role,
-        code = uuid
+        account: req.decoded.id,
+        email: req.body.email,
+        role: req.body.role,
+        code: uuid
       });
       inv.save(function (err) {
         if (err) {
@@ -119,16 +119,27 @@ module.exports = function (app, express) {
     }
   });
 
-  invite.get('/', function (req, res) {
-    res.json({ success: true, message: 'not_implemented' });
+  invite.get('/:id?', function (req, res) {
+    var invId = req.params.id;
+    if (invId) {
+      Invite.findOne({ _id: invId }, function (err, inv) {
+        if (err) {
+          res.json(err);
+        } else {
+          res.json({ success: true, message: 'invite', invite: inv });
+        }
+      });
+    } else {
+      res.json({ success: false, message: 'id_not_provided' });
+    }
   });
 
   invite.get('/list', function (req, res) {
-    Invite.find({ account: req.decoded.id }, function (err, inv_list) {
+    Invite.find({ account: req.decoded.id }, function (err, invList) {
       if (err) {
         res.json(err);
       } else {
-        res.json({ success: true, message: 'your_invites', invites: inv_list });
+        res.json({ success: true, message: 'your_invites', invites: invList });
       }
     })
   });
@@ -137,8 +148,19 @@ module.exports = function (app, express) {
     res.json({ success: true, message: 'not_implemented' });
   });
 
-  invite.delete('/', function (req, res) {
-    res.json({ success: true, message: 'not_implemented' });
+  invite.delete('/:id?', function (req, res) {
+    var invId = req.params.id;
+    if (invId) {
+      Invite.remove({ _id: invId }, function (err, inv) {
+        if (err) {
+          res.json(err);
+        } else {
+          res.json({ success: true, message: 'invite_removed' });
+        }
+      });
+    } else {
+      res.json({ success: false, message: 'id_not_provided' });
+    }
   });
 
   return invite;
