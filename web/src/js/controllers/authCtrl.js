@@ -8,7 +8,7 @@ angular.module('medeye.controllers')
 
             function processData(data) {
                 $rootScope.processing = false;
-                if (data.success === true) {
+                if (data && data.success === true) {
                     $window.localStorage.setItem('token', data.token);
                     $window.localStorage.setItem('email', data.email);
                     $window.localStorage.setItem('role', data.role);

@@ -35,7 +35,7 @@
                     <ng-md-icon icon="settings" style="fill: grey; padding-left: 8px; padding-top: 8px"></ng-md-icon>
                     <p class="md-body-1" style="padding-left: 24px">Settings</p>
                 </md-list-item>
-                <md-list-item class="md-1-line" ng-href="account/invite" ng-click="toggleMenu()">
+                <md-list-item ng-if="$root.isAdmin" class="md-1-line" ng-href="account/invite" ng-click="toggleMenu()">
                     <ng-md-icon icon="add_circle" style="fill: grey; padding-left: 8px; padding-top: 8px"></ng-md-icon>
                     <p class="md-body-1" style="padding-left: 24px">Invites</p>
                 </md-list-item>
@@ -106,7 +106,8 @@
         <div ng-if="$root.processing">
             <md-progress-linear class="md-warn" md-mode="indeterminate"></md-progress-linear>
         </div>
-        <div layout-padding ng-view></div>
+        <div layout="row" layout-fill layout-align="center start" ng-view>
+        </div>
     </md-content>
     <script src="js/angular.min.js"></script>
     <script src="js/angular-aria.min.js"></script>

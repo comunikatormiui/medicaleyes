@@ -2,9 +2,9 @@
 angular.module('medeye.controllers')
     .controller('AccCtrl', ['$scope', '$rootScope', '$location', '$window', '$mdSidenav', 'Auth', 'Invite',
         function ($scope, $rootScope, $location, $window, $mdSidenav, Auth, Invite) {
-            $rootScope.isAdmin = false;
-            $rootScope.isPartner = false;
-            $rootScope.isUser = false;
+            $rootScope.isAdmin = $rootScope.isAdmin ? $rootScope.isAdmin : false;
+            $rootScope.isPartner = $rootScope.isPartner ? $rootScope.isPartner : false;
+            $rootScope.isUser = $rootScope.isUser ? $rootScope.isUser : false;
 
             $rootScope.processing = false;
 
@@ -27,8 +27,7 @@ angular.module('medeye.controllers')
 
             function processData(data) {
                 $rootScope.processing = false;
-                if (data.success === true) {
-                    $scope.getMe();
+                if (data && data.success === true) {
                 } else {
                     $rootScope.$broadcast('alert', data.message);
                 }

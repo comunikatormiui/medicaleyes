@@ -17,7 +17,7 @@ angular.module('medeye.controllers')
                 });
         }
         function processData(data) {
-            if (data.success === true) {
+            if (data && data.success === true) {
                 $rootScope.$broadcast('alert', data.message);
                 $location.path('/');
             } else {
