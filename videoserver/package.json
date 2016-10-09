@@ -1,7 +1,7 @@
 {
-  "name": "medicaleyes-web",
+  "name": "heartin-videoserver",
   "version": "0.0.1",
-  "description": "Medical Eyes radiology pre-diagnosis system web part",
+  "description": "heartin.net videoserver",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,24 +13,22 @@
     "url": "git@github.com/ixc-software/medicaleyes.git"
   },
   "keywords": [
-    "medicaleyes",
+    "heartin",
     "backend",
-    "frontend"
+    "frontend",
+    "videoserver"
   ],
   "author": "Afanasy Argunov",
   "license": "GPL-2.0",
   "dependencies": {
-    "async": "^2.0.0-rc.6",
+    "async": "^2.0.1",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
-    "jsonwebtoken": "^7.0.1",
+    "jsonwebtoken": "^7.1.9",
     "mongoose": "^4.5.3",
     "morgan": "^1.7.0",
     "nconf": "^0.8.4",
-    "nodemailer": "^2.5.0",
-    "nodemailer-smtp-transport": "^2.6.0",
     "underscore": "^1.8.3",
-    "xoauth2": "^1.1.0",
     "bower": "^1.7.9",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
@@ -38,7 +36,7 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-uglify": "^2.0.0",
     "grunt-version": "^1.1.1"
   }
 }

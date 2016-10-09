@@ -1,0 +1,21 @@
+{
+  "name": "heartin-videoserver",
+  "description": "Heartin videoserver",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "svg-morpheus": "latest",
+    "angular": "latest",
+    "angular-animate": "latest",
+    "angular-material": "latest",
+    "angular-route": "latest",
+    "angular-material-icons": "latest",
+    "angular-translate": "latest",
+    "angular-sanitize": "latest",
+    "ng-flow": "latest",
+    "underscore": "latest"
+  },
+  "resolutions": {
+    "angular": "^1.5.8"
+  }
+}

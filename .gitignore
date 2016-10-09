@@ -6,3 +6,10 @@ paip/*.o
 paip/paip
 web/.vscode
 web/.vscode/*
+videoserver/.vscode
+videoserver/.vscode/*
+videoserver/node_modules
+videoserver/build
+videoserver/src/bower_components
+videoserver/npm-debug.log
+videoserver/db/*.*

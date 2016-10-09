@@ -31,29 +31,19 @@ app.use(express.static(__dirname + '/build'));
 
 app.get('*', function (req, res) { res.sendFile(__dirname + '/build/index.html'); });
 
-var cluster = require('cluster');
-var os = require('os');
-var numCPUs = os.cpus().length;
-
-if (cluster.isMaster) {
-  for (var i = 0; i < numCPUs; ++i) {
-    cluster.fork();
+var port = 3001;
+server.listen(port, function (err) {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('listening on port ' + port);
   }
-} else {
-  var port = 3001;
-  server.listen(port, function (err) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log('listening on port ' + port);
-    }
-  });
+});
 
-  var http = require('http');
-  http.createServer(function (req, res) {
-    res.writeHead(
-      301, { "Location": "https://" + req.headers['host'] + req.url });
-    res.end();
-  })
-    .listen(3000);
-}
+var http = require('http');
+http.createServer(function (req, res) {
+  res.writeHead(
+    301, { "Location": "https://" + req.headers['host'] + req.url });
+  res.end();
+})
+  .listen(3000);

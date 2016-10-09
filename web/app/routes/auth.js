@@ -52,6 +52,14 @@ function genUuid() {
   });
 }
 
+function objectParser(err, object) {
+  if (err) {
+    res.json(err);
+  } else {
+    res.json({ success: true, message: 'object_processed', object: object });
+  }
+}
+
 module.exports = function (app, express) {
   var auth = express.Router();
   /*

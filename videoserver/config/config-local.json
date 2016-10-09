@@ -1,0 +1,15 @@
+{
+  "mongoose": {
+    "uri": "mongodb://localhost:27017/videoserver",
+    "options": {
+      "server": {
+        "socketOptions": {
+          "keepAlive": 1
+        }
+      }
+    }
+  },
+  "domainName": "localhost",
+  "apiEndpoint": "http://localhost/api/v1/",
+  "secretKey": "MySecretIsSoSecretDamnIt"
+}
