@@ -1,3 +1,4 @@
+db
 web/node_modules
 web/build
 web/src/bower_components
@@ -12,4 +13,3 @@ videoserver/node_modules
 videoserver/build
 videoserver/src/bower_components
 videoserver/npm-debug.log
-videoserver/db/*.*
