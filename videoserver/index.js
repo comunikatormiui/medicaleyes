@@ -5,6 +5,7 @@ var config = require('./config');
 var mongoose = require('./lib/mongoose');
 
 var http = require('http');
+var socketio = require('socket.io');
 
 var app = express();
 var server = http.createServer(app);
@@ -12,6 +13,12 @@ var server = http.createServer(app);
 app.use(bodyParser.urlencoded({ extended: true, limit: '2mb' }));
 app.use(bodyParser.json({ limit: '2mb' }));
 app.use(morgan('tiny'));
+
+var room = require('./app/routes/room')(app, express, socketio);
+app.use('/api/v1/room', room);
+
+var account = require('./app/routes/account')(app, express);
+app.use('/api/v1/account', account);
 
 app.use(express.static(__dirname + '/build'));
 
