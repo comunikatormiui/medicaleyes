@@ -1,1 +1,67 @@
-Hello!
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <base href="/">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Heartin Videochat</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="css/angular-material.min.css">
+</head>
+
+<body ng-app="videochat" ng-cloak ng-controller="AppCtrl">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button md-primary" ng-href="/" aria-label="Home">
+                <md-tooltip md-direction="bottom">
+                    Home
+                </md-tooltip>
+                <ng-md-icon icon="home" style="fill: white;"></ng-md-icon>
+            </md-button>
+            <md-button class="md-raised md-warn md-hue-2" ng-href="rooms">Rooms</md-button>
+            <span flex></span>
+            <md-button ng-if="!$root.logged" ng-href="login">Login</md-button>
+            <md-button ng-if="!$root.logged" ng-href="register">Register</md-button>
+            <md-button ng-if="$root.logged" class="md-icon-button md-primary md-raised" ng-disabled="recording" ng-click="startRecord()">
+                <md-tooltip md-direction="bottom">
+                    Start record
+                </md-tooltip>
+                <ng-md-icon icon="fiber_manual_record" style="fill: red;"></ng-md-icon>
+            </md-button>
+            <md-button ng-if="$root.logged" class="md-icon-button md-primary md-raised" ng-disabled="!recording" ng-click="stopRecord()">
+                <md-tooltip md-direction="bottom">
+                    Stop record
+                </md-tooltip>
+                <ng-md-icon icon="stop" style="fill: white;"></ng-md-icon>
+            </md-button>
+            <md-button ng-if="$root.logged" ng-disabled="recording" ng-click="doLogout()">Logout</md-button>
+        </div>
+    </md-toolbar>
+    <md-content layout-margin layout-gt-sm="row" layout="column">
+        <div style="max-width: 600px; min-width: 500px" ng-view>
+        </div>
+        <div layout-padding>
+            <md-card style="max-width: 400px; min-width: 300px" layout-align="center center">
+                <video ng-src="{{getLocalVideo()}}" style="width: 320px; heigth: 240px" autoplay muted></video>
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">My view</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-content>
+                    <p>You can use web video and audio to take part in the conference</p>
+                </md-card-content>
+            </md-card>
+        </div>
+    </md-content>
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-route.min.js"></script>
+    <script src="js/angular-animate.min.js"></script>
+    <script src="js/angular-aria.min.js"></script>
+    <script src="js/angular-messages.min.js"></script>
+    <script src="js/angular-material.min.js"></script>
+    <script src="js/angular-material-icons.min.js"></script>
+    <script src="js/app.js"></script>
+</body>

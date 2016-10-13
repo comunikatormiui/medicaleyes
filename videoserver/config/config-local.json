@@ -11,5 +11,7 @@
   },
   "domainName": "localhost",
   "apiEndpoint": "http://localhost/api/v1/",
-  "secretKey": "MySecretIsSoSecretDamnIt"
+  "secretKey": "MySecretIsSoSecretDamnIt",
+  "videoFileExtension": ".webm",
+  "audioFileExtension": ".wav"
 }

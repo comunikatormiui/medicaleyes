@@ -11,5 +11,7 @@
   },
   "domainName": "52.183.42.1",
   "apiEndpoint": "http://52.183.42.1/api/v1/",
-  "secretKey": "MySecretIsSoSecretDamnIt"
+  "secretKey": "MySecretIsSoSecretDamnIt",
+  "videoFileExtension": ".webm",
+  "audioFileExtension": ".wav"
 }

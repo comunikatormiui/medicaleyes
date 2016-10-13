@@ -111,6 +111,8 @@ module.exports = function (grunt) {
         files: {
           '<%= project.out %>/js/app.js': [
             '<%= project.src %>/js/app.js',
+            '<%= project.src %>/js/adapter.js',
+            '<%= project.src %>/js/directives.js',
             '<%= project.src %>/js/controllers/*.js',
             '<%= project.src %>/js/services/*.js',
             '!<%= project.src %>/bower_components/**'

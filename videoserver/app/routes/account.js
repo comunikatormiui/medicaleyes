@@ -12,11 +12,15 @@ module.exports = function (app, express) {
       Account.findOne({ name: name }, function (err, acc) {
         if (err) { res.json(err); }
         else {
-          acc.status = 'online';
-          acc.save(function (err) {
-            if (err) { res.json(err); }
-            else { res.json({ success: true, message: 'login done' }); }
-          });
+          if (acc) {
+            acc.status = 'online';
+            acc.save(function (err) {
+              if (err) { res.json(err); }
+              else { res.json({ success: true, message: 'login done', name: name }); }
+            });
+          } else {
+            res.json({ success: false, message: 'account not found' });
+          }
         }
       });
     } else { res.json({ success: false, message: 'name not provided' }); }
@@ -68,7 +72,7 @@ module.exports = function (app, express) {
             var acc = new Account({ name: name, status: 'online' });
             acc.save(function (err) {
               if (err) { cb(err) }
-              else { cb(null, { success: true, message: 'account created' }); }
+              else { cb(null, { success: true, message: 'account created', name: name }); }
             });
           }
         }
