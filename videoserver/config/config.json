@@ -1,0 +1,16 @@
+{
+  "mongoose": {
+    "uri": "mongodb://localhost:27017/videoserver",
+    "options": {
+      "server": {
+        "socketOptions": {
+          "keepAlive": 1
+        }
+      }
+    }
+  },
+  "domainName": "52.183.42.1",
+  "secretKey": "MySecretIsSoSecretDamnIt",
+  "videoFileExtension": ".webm",
+  "audioFileExtension": ".wav"
+}
