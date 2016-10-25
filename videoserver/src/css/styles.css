@@ -1,0 +1,24 @@
+#remote {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: 1;
+    transform: translateX(-50%) translateY(-50%);
+    object-fit: cover;
+    opacity: 1;
+}
+#local {
+    border: 1px solid gray;
+    bottom: 20px;
+    left: 20px;
+    max-height: 17%;
+    max-width: 17%;
+    opacity: 1;
+    position: fixed;
+    transition: opacity 1s;
+    z-index: 2;
+}

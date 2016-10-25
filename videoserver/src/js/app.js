@@ -1,8 +1,8 @@
 'use strict';
 angular.module('videochat', ['ngRoute', 'ngMaterial', 'ngMdIcons', 'ngMessages', 'ngAria', 'ngAnimate',
-    'videochat.services', 'videochat.controllers', 'videochat.directives'])
+    'videochat.services', 'videochat.controllers'])
     .constant('$apiEndpoint', {
-        url: 'http://localhost:3000/api/v1/'
+        url: 'https://52.183.42.1/'
     })
     .config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default')
@@ -28,20 +28,12 @@ angular.module('videochat', ['ngRoute', 'ngMaterial', 'ngMdIcons', 'ngMessages',
                 templateUrl: 'views/body.html',
                 controller: 'AppCtrl'
             })
-            .when('/login', {
-                templateUrl: 'views/login.html',
-                controller: 'AuthCtrl'
-            })
-            .when('/register', {
-                templateUrl: 'views/register.html',
-                controller: 'AuthCtrl'
-            })
-            .when('/rooms/:id?', {
-                templateUrl: 'views/rooms.html',
-                controller: 'RoomsCtrl'
+            .when('/room/:id?', {
+                templateUrl: 'views/room.html',
+                controller: 'RoomCtrl'
             })
             .otherwise({
-                redirectTo: 'login'
+                redirectTo: '/'
             });
         $locationProvider.html5Mode(true);
     });

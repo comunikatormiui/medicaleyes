@@ -88,7 +88,8 @@ module.exports = function (grunt) {
             'angular-material-icons/angular-material-icons.min.js',
             'angular-simple-logger/dist/angular-simple-logger.min.js',
             'angular-google-maps/dist/angular-google-maps.min.js',
-            'dicomParser/dist/dicomParser.min.js'
+            'dicomParser/dist/dicomParser.min.js',
+            'webrtc-adapter/release/adapter.js'
           ],
           dest: '<%= project.out %>/js',
           flatten: true
@@ -111,7 +112,6 @@ module.exports = function (grunt) {
         files: {
           '<%= project.out %>/js/app.js': [
             '<%= project.src %>/js/app.js',
-            '<%= project.src %>/js/adapter.js',
             '<%= project.src %>/js/directives.js',
             '<%= project.src %>/js/controllers/*.js',
             '<%= project.src %>/js/services/*.js',

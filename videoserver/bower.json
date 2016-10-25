@@ -13,7 +13,8 @@
     "angular-translate": "latest",
     "angular-sanitize": "latest",
     "ng-flow": "latest",
-    "underscore": "latest"
+    "underscore": "latest",
+    "webrtc-adapter": "latest"
   },
   "resolutions": {
     "angular": "^1.5.8"

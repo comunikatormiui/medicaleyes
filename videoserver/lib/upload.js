@@ -1,7 +1,9 @@
 var fs = require('fs');
 var exec = require('child_process').exec;
 var uuid = require('node-uuid');
+var _ = require('underscore');
 var config = require('../config');
+var Room = require('../app/models/room');
 
 var vFe = config.get("videoFileExtension");
 var aFe = config.get("audioFileExtension");
@@ -42,40 +44,35 @@ function fixWebmAudio(fileName, callback) {
   });
 }
 
-module.exports = function (wss) {
-  var sockets = [];
-  var conferences = {};
+module.exports = function (io) {
+  io.on('connection', function (socket) {
+    var confs = [];
 
-  wss.on('connection', function connection(ws) {
-    sockets.push(ws);
+    socket.on('message', function (data) {
+      socket.broadcast.emit('message', data);
+    });
 
-    var fName = uuid.v4();
-    var vCount = 0;
-    var fType = vFe;
-
-    function broadcast(data) {
-      sockets.forEach(function (socket) {
-        socket.send(data);
+    socket.on('join', function (data) {
+      var rid = data.id;
+      var count = 0;
+      _.each(confs, function (cnf) {
+        if (cnf.id === rid) count++;
       });
-    }
+      if (count < 2) {
+        confs.push({ id: rid, socket: socket });
+        socket.emit('accept', { success: true, id: rid });
+      } else { socket.emit('reject', { success: false, id: rid }); }
+    });
 
-    function cb() {
-      fName = uuid.v4();
-    }
-
-    ws.on('message', function incoming(data) {
-      if (data instanceof Buffer) {
-        vCount++;
-        writeData(data, fName, fType, vCount, ws);
-      } else {
-        var data = JSON.parse(data);
-        if (data.completedVideo) {
-          fixWebmAudio(data.completedVideo, cb);
-        } else {
-          console.log(data);
-          broadcast(JSON.stringify(data));
+    socket.on('check', function (data) {
+      var rid = data.id;
+      Room.findOne({ path: rid }, function (e, r) {
+        if (e) { console.log(e); }
+        else {
+          if (r) { socket.emit('roomchecked', { success: true, id: rid }); }
+          else { socket.emit('roomchecked', { success: false, id: rid }); }
         }
-      }
+      });
     });
   });
 };
