@@ -10,6 +10,7 @@ angular.module('videochat.controllers')
                 'OfferToReceiveVideo': true
             };
             var selfCandidates = [];
+            var offerSent = false;
 
             if ($routeParams.id) {
                 roomId = $routeParams.id;
@@ -38,6 +39,7 @@ angular.module('videochat.controllers')
             }
 
             function createRTCOffer() {
+                offerSent = true;
                 pc.createOffer(
                     function (sessionDescription) {
                         pc.setLocalDescription(sessionDescription)
@@ -97,7 +99,7 @@ angular.module('videochat.controllers')
             socket.on('message', function (data) {
                 var message = data;
                 if (message.id === roomId) {
-                    if (message.type === 'offer') {
+                    if (!offerSent && message.type === 'offer') {
                         pc.setRemoteDescription(new RTCSessionDescription(message.sessionDescription))
                             .then(function () {
                                 pc.createAnswer()
