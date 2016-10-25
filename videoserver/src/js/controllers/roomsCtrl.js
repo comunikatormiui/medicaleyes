@@ -91,6 +91,7 @@ angular.module('videochat.controllers')
                         stream = s;
                         buildInitialVideo();
                         createPeerConnection();
+                        createRTCOffer();
                     }, function (e) {
                         $rootScope.$broadcast('alert', e);
                     });
