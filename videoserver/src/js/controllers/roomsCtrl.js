@@ -89,7 +89,6 @@ angular.module('videochat.controllers')
                         stream = s;
                         buildInitialVideo();
                         createPeerConnection();
-                        createRTCOffer();
                     }, function (e) {
                         $rootScope.$broadcast('alert', e);
                     });
@@ -125,10 +124,12 @@ angular.module('videochat.controllers')
                 }
             });
 
-
             socket.on('accept', function (data) {
                 if (data.id === roomId) {
                     init();
+                    if (data.count === 2) {
+                        setTimeout(function () { createRTCOffer(); }, 3000);
+                    }
                 }
             });
 

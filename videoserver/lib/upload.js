@@ -45,23 +45,22 @@ function fixWebmAudio(fileName, callback) {
 }
 
 module.exports = function (io) {
+  var confs = [];
   io.on('connection', function (socket) {
-    var confs = [];
-
     socket.on('message', function (data) {
       socket.broadcast.emit('message', data);
     });
 
     socket.on('join', function (data) {
       var rid = data.id;
+      confs.push({ id: rid, socket: socket });
       var count = 0;
       _.each(confs, function (cnf) {
         if (cnf.id === rid) count++;
       });
-      if (count < 2) {
-        confs.push({ id: rid, socket: socket });
-        socket.emit('accept', { success: true, id: rid });
-      } else { socket.emit('reject', { success: false, id: rid }); }
+      if (count <= 2) {
+        socket.emit('accept', { id: rid, count: count });
+      } else { socket.emit('reject', { id: rid }); }
     });
 
     socket.on('check', function (data) {
