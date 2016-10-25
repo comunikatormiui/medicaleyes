@@ -30,12 +30,10 @@ angular.module('videochat.controllers')
                     socket.emit('message', {
                         type: 'candidate',
                         id: roomId,
-                        from: $scope.passData.name,
                         candidate: event.candidate
                     });
                     selfCandidates.push(event.candidate.candidate);
                 } else {
-                    console.log('end of candidates');
                 }
             }
 
