@@ -10,11 +10,39 @@ angular.module('videochat.controllers')
                 'OfferToReceiveVideo': true
             };
             var selfCandidates = [];
+            var offerSent = false;
+            var videoCounter = 0;
+            var recorder;
 
             if ($routeParams.id) {
                 roomId = $routeParams.id;
                 $scope.inRoom = true;
                 checkRoom();
+            }
+
+            $scope.closeRoom = function () {
+                socket.emit('leave', { id: roomId });
+                socket.emit('message', {
+                    completed: true,
+                    id: roomId
+                });
+                recorder.stop();
+                $location.path('/');
+            };
+
+            function getRecorder() {
+                var options = { mimeType: 'video/webm' };
+                recorder = new MediaRecorder(stream, options);
+                recorder.ondataavailable = videoDataHandler;
+            }
+
+            function videoDataHandler(event) {
+                var reader = new FileReader();
+                reader.readAsArrayBuffer(event.data);
+                videoCounter++;
+                reader.onloadend = function (event) {
+                    socket.emit('message', { id: roomId, rw: reader.result });
+                };
             }
 
             function checkRoom() {
@@ -38,6 +66,7 @@ angular.module('videochat.controllers')
             }
 
             function createRTCOffer() {
+                offerSent = true;
                 pc.createOffer(
                     function (sessionDescription) {
                         pc.setLocalDescription(sessionDescription)
@@ -87,8 +116,10 @@ angular.module('videochat.controllers')
                 navigator.mediaDevices.getUserMedia(config)
                     .then(function (s) {
                         stream = s;
+                        getRecorder();
                         buildInitialVideo();
                         createPeerConnection();
+                        recorder.start(3000);
                     }, function (e) {
                         $rootScope.$broadcast('alert', e);
                     });
@@ -97,7 +128,7 @@ angular.module('videochat.controllers')
             socket.on('message', function (data) {
                 var message = data;
                 if (message.id === roomId) {
-                    if (message.type === 'offer') {
+                    if (!offerSent && message.type === 'offer') {
                         pc.setRemoteDescription(new RTCSessionDescription(message.sessionDescription))
                             .then(function () {
                                 pc.createAnswer()

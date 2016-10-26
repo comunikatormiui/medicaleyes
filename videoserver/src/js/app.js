@@ -32,6 +32,10 @@ angular.module('videochat', ['ngRoute', 'ngMaterial', 'ngMdIcons', 'ngMessages',
                 templateUrl: 'views/room.html',
                 controller: 'RoomCtrl'
             })
+            .when('/files', {
+                templateUrl: 'views/files.html',
+                controller: 'FilesCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });

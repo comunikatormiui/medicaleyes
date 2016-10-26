@@ -22,3 +22,9 @@
     transition: opacity 1s;
     z-index: 2;
 }
+#close {
+    left: 20px;
+    top: 20px;
+    position: fixed;
+    z-index: 2;
+}
