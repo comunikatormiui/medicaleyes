@@ -35,8 +35,8 @@ module.exports = function (app, express) {
     }
   });
 
-  room.post('/getStream', function (req, res) {
-    var file = fPath + req.body.path + '/' + req.body.filename;
+  room.get('/getStream/:path?/:filename?', function (req, res) {
+    var file = fPath + req.params.path + '/' + req.params.filename;
     fs.stat(file, function (err, stats) {
       if (err) {
         if (err.code === 'ENOENT') {
@@ -44,9 +44,21 @@ module.exports = function (app, express) {
         }
         res.end(err);
       }
+      var range = req.headers.range;
+      if (!range) {
+        return res.sendStatus(416);
+      }
+      var positions = range.replace(/bytes=/, "").split("-");
+      var start = parseInt(positions[0], 10);
+      var total = stats.size;
+      var end = positions[1] ? parseInt(positions[1], 10) : total - 1;
+      var chunksize = (end - start) + 1;
 
       res.writeHead(206, {
-        'Content-Type': 'video/webm'
+        "Content-Range": "bytes " + start + "-" + end + "/" + total,
+        "Accept-Ranges": "bytes",
+        "Content-Length": chunksize,
+        "Content-Type": "video/webm"
       });
 
       var stream = fs.createReadStream(file)

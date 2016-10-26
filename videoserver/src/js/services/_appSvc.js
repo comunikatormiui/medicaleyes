@@ -22,7 +22,8 @@ angular.module('videochat.services', [])
         };
         filesFactory.stream = function (fileOpts) {
             var d = $q.defer();
-            $http.post($apiEndpoint.url + 'api/room/getStream', fileOpts)
+            $http.get($apiEndpoint.url + 'api/room/getStream/' + fileOpts.path + '/' + fileOpts.filename,
+                { headers: { 'Range': 'bytes=0-1000000' } })
                 .success(function (r) { d.resolve(r); })
                 .error(function (e) { $rootScope.$broadcast('alert', e); });
             return d.promise;
