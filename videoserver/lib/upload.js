@@ -11,21 +11,20 @@ var blobs = [];
 var dir = __dirname;
 var fPath = dir.slice(0, -4) + '/uploads/';
 
-function writeData(data, fName, fType, vCount, ws) {
-  if (!fs.existsSync(fPath + fName + fType)) {
-    ws.send(JSON.stringify({ fileName: fName }));
-    fs.writeFileSync(fPath + fName + fType, data);
-    ws.send(JSON.stringify({ part: vCount, fileName: fName }));
+function writeData(data, fName, rid, fType, vCount, socket) {
+  if (!fs.existsSync(fPath + rid + '/' + fName + fType)) {
+    fs.writeFileSync(fPath + rid + '/' + fName + fType, data);
+    socket.emit('message', { part: vCount, fileName: fName, id: rid });
   } else {
-    fs.appendFileSync(fPath + fName + fType, data);
-    ws.send(JSON.stringify({ part: vCount, fileName: fName }));
+    fs.appendFileSync(fPath + rid + '/' + fName + fType, data);
+    socket.emit('message', { part: vCount, fileName: fName, id: rid });
   }
 }
-function fixWebmAudio(fileName, callback) {
-  var file = fPath + fileName + vFe;
-  var audioFile = fPath + fileName + aFe;
-  var ffmpegcommand = 'ffmpeg -i ' + file + ' ' + fPath + 'out' + fileName + vFe;
-  var postManip = 'rm -f ' + file + ' && mv ' + fPath + 'out' + fileName + vFe + ' ' + file;
+function fixWebmAudio(fileName, rid) {
+  var file = fPath + rid + '/' + fileName + vFe;
+  var audioFile = fPath + rid + '/' + fileName + aFe;
+  var ffmpegcommand = 'ffmpeg -i ' + file + ' ' + fPath + rid + '/' + 'out' + fileName + vFe;
+  var postManip = 'rm -f ' + file + ' && mv ' + fPath + rid + '/' + 'out' + fileName + vFe + ' ' + file;
   console.log(ffmpegcommand);
 
   exec(ffmpegcommand, { maxBuffer: 20000 * 1024 }, function (error, stdout, stderr) {
@@ -33,13 +32,7 @@ function fixWebmAudio(fileName, callback) {
       console.log(error);
     } else {
       console.log('ffmpeg ends with', fileName);
-      exec(postManip, { maxBuffer: 20000 * 1024 }, function (error, stdout, stderr) {
-        if (error) {
-          console.log(error);
-        } else {
-          callback();
-        }
-      });
+      exec(postManip, { maxBuffer: 20000 * 1024 });
     }
   });
 }
@@ -47,8 +40,18 @@ function fixWebmAudio(fileName, callback) {
 module.exports = function (io) {
   var confs = [];
   io.on('connection', function (socket) {
+    var vCount = 0;
+    var fName = uuid.v1();
+    var fType = vFe;
+
     socket.on('message', function (data) {
-      socket.broadcast.emit('message', data);
+      var rid = data.id;
+      if (data.rw instanceof Buffer) {
+        vCount++;
+        writeData(data.rw, fName, rid, fType, vCount, socket);
+      } else if (data.completed) {
+        fixWebmAudio(fName, rid);
+      } else { socket.broadcast.emit('message', data); }
     });
 
     socket.on('join', function (data) {

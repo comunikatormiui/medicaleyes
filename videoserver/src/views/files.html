@@ -1,0 +1,18 @@
+<md-input-container>
+	<label>Enter room ID</label>
+	<input ng-model="roomPath.path">
+</md-input-container>
+<md-button class="md-raised md-primary" ng-click="getFiles()">Get files</md-button>
+<video id="files" type="video/webm" autoplay>
+</video>
+<md-list flex>
+	<md-subheader class="md-no-sticky">Files</md-subheader>
+	<md-list-item class="md-2-line" ng-repeat="file in files">
+		<div class="md-list-item-text">
+			<h3>{{ file }}</h3>
+			<div layout="row">
+				<md-button class="md-raised md-primary" ng-click="play(file)">Play</md-button>
+			</div>
+		</div>
+	</md-list-item>
+</md-list>
