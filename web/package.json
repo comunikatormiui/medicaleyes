@@ -20,11 +20,11 @@
   "author": "Afanasy Argunov",
   "license": "GPL-2.0",
   "dependencies": {
-    "async": "^2.0.0-rc.6",
+    "async": "^3.2.2",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "jsonwebtoken": "^7.0.1",
-    "mongoose": "^4.5.3",
+    "mongoose": "^5.7.3",
     "morgan": "^1.7.0",
     "nconf": "^0.8.4",
     "nodemailer": "^2.5.0",
@@ -38,7 +38,7 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-uglify": "^2.2.0",
     "grunt-version": "^1.1.1"
   }
 }
