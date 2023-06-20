@@ -38,7 +38,7 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-uglify": "^2.0.0",
-    "grunt-version": "^1.1.1"
+    "grunt-contrib-uglify": "^3.4.0",
+    "grunt-version": "^3.0.0"
   }
 }
